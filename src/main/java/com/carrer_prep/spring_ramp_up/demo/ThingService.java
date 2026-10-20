@@ -10,26 +10,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Service
-public class ThingService {
+public interface ThingService {
 
-    private final Map<Long, Thing> store = new ConcurrentHashMap<>();
-    private final AtomicLong idSequence = new AtomicLong();
-
-    public Thing create(Thing thing) {
-        long id = idSequence.incrementAndGet();
-        thing.setId(id);
-        store.put(id, thing);
-        return thing;
-    }
-
-    public Thing findById(Long id) {
-        Thing thing = store.get(id);
-
-        if(thing == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-
-        return thing;
-    }
+    Thing create(Thing thing);
+    Thing findById(Long id);
 
 }
