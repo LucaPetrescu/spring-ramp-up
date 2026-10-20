@@ -2,6 +2,7 @@ package com.carrer_prep.spring_ramp_up.controllers;
 
 import com.carrer_prep.spring_ramp_up.dtos.Thing;
 import com.carrer_prep.spring_ramp_up.services.ThingService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class ThingsController {
     private final ThingService thingService;
 
     @PostMapping
-    public ResponseEntity<Thing> createThing(@RequestBody Thing thing) {
+    public ResponseEntity<Thing> createThing(@Valid @RequestBody Thing thing) {
         Thing createdThing = thingService.create(thing);
         URI location = URI.create("/api/v1/things" + createdThing.getId());
         return ResponseEntity.created(location).body(createdThing);
