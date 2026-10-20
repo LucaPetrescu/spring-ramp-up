@@ -1,5 +1,7 @@
-package com.carrer_prep.spring_ramp_up.demo;
+package com.carrer_prep.spring_ramp_up.controllers;
 
+import com.carrer_prep.spring_ramp_up.dtos.Thing;
+import com.carrer_prep.spring_ramp_up.services.ThingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

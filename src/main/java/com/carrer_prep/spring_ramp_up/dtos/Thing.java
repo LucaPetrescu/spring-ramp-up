@@ -1,4 +1,4 @@
-package com.carrer_prep.spring_ramp_up.demo;
+package com.carrer_prep.spring_ramp_up.dtos;
 
 import lombok.Data;
 

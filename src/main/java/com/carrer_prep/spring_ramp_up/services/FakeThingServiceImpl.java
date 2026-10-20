@@ -1,6 +1,6 @@
-package com.carrer_prep.spring_ramp_up.demo;
+package com.carrer_prep.spring_ramp_up.services;
 
-import org.springframework.context.annotation.Primary;
+import com.carrer_prep.spring_ramp_up.dtos.Thing;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -10,9 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Service
-@Primary
-public class ThingServiceImpl implements ThingService{
-
+public class FakeThingServiceImpl implements ThingService{
     private final Map<Long, Thing> store = new ConcurrentHashMap<>();
     private final AtomicLong idSequence = new AtomicLong();
 
@@ -32,5 +30,4 @@ public class ThingServiceImpl implements ThingService{
 
         return thing;
     }
-
 }
