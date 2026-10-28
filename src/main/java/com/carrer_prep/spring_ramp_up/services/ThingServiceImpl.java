@@ -1,6 +1,7 @@
 package com.carrer_prep.spring_ramp_up.services;
 
 import com.carrer_prep.spring_ramp_up.dtos.Thing;
+import com.carrer_prep.spring_ramp_up.exceptions.NotFoundException;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 @Service
 @Primary
-public class ThingServiceImpl implements ThingService{
+public class ThingServiceImpl implements ThingService {
 
     private final Map<Long, Thing> store = new ConcurrentHashMap<>();
     private final AtomicLong idSequence = new AtomicLong();
@@ -28,7 +29,7 @@ public class ThingServiceImpl implements ThingService{
         Thing thing = store.get(id);
 
         if(thing == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new NotFoundException("Resource not found");
         }
 
         return thing;
