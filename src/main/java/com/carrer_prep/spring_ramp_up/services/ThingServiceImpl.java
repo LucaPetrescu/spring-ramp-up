@@ -1,38 +1,36 @@
 package com.carrer_prep.spring_ramp_up.services;
 
-import com.carrer_prep.spring_ramp_up.dtos.Thing;
+import com.carrer_prep.spring_ramp_up.dtos.ThingRequest;
+import com.carrer_prep.spring_ramp_up.dtos.ThingResponse;
+import com.carrer_prep.spring_ramp_up.entities.Thing;
 import com.carrer_prep.spring_ramp_up.exceptions.NotFoundException;
+import com.carrer_prep.spring_ramp_up.repositories.ThingRepository;
 import org.springframework.context.annotation.Primary;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
-
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Primary
 public class ThingServiceImpl implements ThingService {
 
-    private final Map<Long, Thing> store = new ConcurrentHashMap<>();
-    private final AtomicLong idSequence = new AtomicLong();
+    private final ThingRepository thingRepository;
 
-    public Thing create(Thing thing) {
-        long id = idSequence.incrementAndGet();
-        thing.setId(id);
-        store.put(id, thing);
-        return thing;
+    public ThingServiceImpl(ThingRepository thingRepository) {
+        this.thingRepository = thingRepository;
     }
 
-    public Thing findById(Long id) {
-        Thing thing = store.get(id);
-
-        if(thing == null) {
-            throw new NotFoundException("Resource not found");
-        }
-
-        return thing;
+    @Override
+    @Transactional
+    public ThingResponse create(ThingRequest request) {
+        Thing saved = thingRepository.save(new Thing(request.name(), request.category(), request.active(), request.weight()));
+        return ThingResponse.from(saved);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public ThingResponse findById(Long id) {
+        return thingRepository.findById(id)
+                .map(ThingResponse::from)
+                .orElseThrow(() -> new NotFoundException("Thing " + id + " does not exist"));
+    }
 }
