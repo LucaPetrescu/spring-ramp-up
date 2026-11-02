@@ -36,4 +36,7 @@ public class ThingsController {
         return ResponseEntity.ok(thingService.findById(id));
     }
 
+    @GetMapping
+    public ResponseEntity<ThingResponse>
+
 }
