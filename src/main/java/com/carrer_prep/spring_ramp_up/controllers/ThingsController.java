@@ -37,6 +37,8 @@ public class ThingsController {
     }
 
     @GetMapping
-    public ResponseEntity<ThingResponse>
+    public ResponseEntity<ThingResponse> getThings(@RequestParam(required = false) String category) {
+        return ResponseEntity.ok(thingService.findAll(category);
+    }
 
 }

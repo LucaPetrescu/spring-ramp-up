@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Primary
 public class ThingServiceImpl implements ThingService {
@@ -32,5 +34,11 @@ public class ThingServiceImpl implements ThingService {
         return thingRepository.findById(id)
                 .map(ThingResponse::from)
                 .orElseThrow(() -> new NotFoundException("Thing " + id + " does not exist"));
+    }
+
+    @Override
+    @Transactional
+    public List<ThingResponse> findByCategory(String category) {
+        return thingRepository.findAll(category).map(ThingResponse::from).orElseThrow(() -> new NotFoundException(""));
     }
 }
